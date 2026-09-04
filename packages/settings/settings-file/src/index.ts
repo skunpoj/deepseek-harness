@@ -174,8 +174,18 @@ export class FileSettingsProvider extends SettingsProvider {
       text = await readFile(this.spec.filename, 'utf8')
     } catch (error) {
       if (!isENOENT(error)) throw error
-      this.text = undefined
-      return {}
+      // Automatically materialize an empty settings document on initial boot if missing
+      try {
+        await mkdir(dirname(this.spec.filename), { recursive: true, mode: 0o700 })
+        await writeFile(this.spec.filename, 'version: 1\n', { flag: 'wx', mode: 0o600 })
+        text = 'version: 1\n'
+      } catch (createErr) {
+        if (!isEEXIST(createErr)) {
+          this.text = undefined
+          return {}
+        }
+        text = await readFile(this.spec.filename, 'utf8')
+      }
     }
     const doc = this.parse(text)
     this.text = text
