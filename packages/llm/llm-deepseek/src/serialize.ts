@@ -365,7 +365,7 @@ function requestWithMessages(
       : {},
     ...tools !== undefined && tools.length > 0 ? { tools } : {},
     ...options.temperature !== undefined ? { temperature: options.temperature } : {},
-    ...options.maxTokens === undefined ? {} : { max_tokens: options.maxTokens },
+    ...options.maxTokens === undefined ? {} : { max_tokens: Math.min(options.maxTokens, 4096) },
     ...options.stop !== undefined ? { stop: options.stop } : {},
   }
 }

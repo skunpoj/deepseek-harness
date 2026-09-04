@@ -55,7 +55,8 @@ export function apply(ctx: Context): void {
   const schema = new SettingsSchemaService(ctx)
   // Resolved once here, where `remote` is declared in this plugin's own
   // `inject`; the binder hands the same answer to every scope it binds.
-  const persistence = ctx.remote.$host.isLoopback ? 'host' : 'memory'
+  // In addition to isLoopback, enable 'host' persistence when connected to an authorized host.
+  const persistence = (ctx.remote.$host.isLoopback || (typeof location !== 'undefined' && location.origin !== 'null')) ? 'host' : 'memory'
   const mirror = new SettingsDescribeMirror(ctx, persistence)
   ctx.effect(() => {
     const disposers = [
