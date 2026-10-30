@@ -1,17 +1,17 @@
 {
   "baselineVersion": "0.2.1-rc.5",
-  "patchSHA256": "2a7ddfbe878db43d6b7a0fb24f6e1bac90aa33623b41a09201a05439070f5853",
+  "patchSHA256": "2c0f8b953eb7f3dc0567106d92fe5dd2120ab36fed2cd48a33c8236d296945d1",
   "targets": [
     {
       "path": "dsh-api-session-controller/lib/index.js",
       "upstreamSHA256": "a9801acb577b03053c5d5a3191ff555c5f1d791d0acddec113bea4511e33b386",
-      "patchedSHA256": "9ca6c66be566e22dd9e03c7c57c818ada479c26419be6634c0a385b826cf5872",
+      "patchedSHA256": "77ed5a6ac6fe453875a9570d9d0c5e1d70c3aeba12aa6ccda78bb682c6a163f6",
       "patched": true
     },
     {
       "path": "dsh-api-session-controller/lib/types/commands.js",
       "upstreamSHA256": "2cbc6ede7bd7211917984b5ef2e2fd598db7a21e493333bc8586c528b17ec25b",
-      "patchedSHA256": "d4a21c8b5898fa396af7145795389d70ba3ac7bf221a924bfc2b99f62688c276",
+      "patchedSHA256": "bb263e95eb71ae87df26bbf8cdfe2f8328dd8223e04aab6200033890f90be2bc",
       "patched": true
     },
     {

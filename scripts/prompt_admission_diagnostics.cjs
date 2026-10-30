@@ -3,10 +3,12 @@
 // image that cannot be stored or a model lookup error) as
 // "prompt rejected (session/agent-busy)" and logs nothing. Keep the error code
 // for client compatibility, but add a short redacted cause to the message and
-// log the redacted stack to the container log.
+// log the redacted stack to the container log. Redaction covers key=value and
+// key: value credentials, bearer tokens and sk- API keys.
 const QUOTES = ['"', "'"];
 const original = q => `throw new RemoteError(${q}session/agent-busy${q}, ${q}prompt rejected${q}, { reason: String(error) });`;
-const replacement = q => `{ const dshDetail = String(error && error.message || error).replace(/(token|key|secret|password)=\\S+/gi, ${q}$1=<redacted>${q}).slice(0, 240); console.error(${q}[dsh] prompt admission failed: ${q} + (error && error.stack ? String(error.stack).replace(/(token|key|secret|password)=\\S+/gi, ${q}$1=<redacted>${q}).slice(0, 2000) : dshDetail)); throw new RemoteError(${q}session/agent-busy${q}, ${q}prompt rejected: ${q} + dshDetail, { reason: String(error) }); }`;
+const redact = q => `const dshRedact = v => String(v).replace(/((?:token|key|secret|password|authorization)["']?\\s*[=:]\\s*["']?(?:bearer\\s+)?|bearer\\s+)[^\\s,;"']+/gi, ${q}$1<redacted>${q}).replace(/sk-[A-Za-z0-9_-]{8,}/g, ${q}sk-<redacted>${q});`;
+const replacement = q => `{ ${redact(q)} const dshDetail = dshRedact(error && error.message || error).slice(0, 240); console.error(${q}[dsh] prompt admission failed: ${q} + (error && error.stack ? dshRedact(error.stack).slice(0, 2000) : dshDetail)); throw new RemoteError(${q}session/agent-busy${q}, ${q}prompt rejected: ${q} + dshDetail, { reason: String(error) }); }`;
 
 /**
  * Rewrite the single prompt-admission throw in one session-controller module.
