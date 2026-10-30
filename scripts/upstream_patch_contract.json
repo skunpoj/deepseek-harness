@@ -7,7 +7,14 @@
       "packageVersion": "0.2.1-rc.5",
       "sha256": "a9801acb577b03053c5d5a3191ff555c5f1d791d0acddec113bea4511e33b386",
       "registryIntegrity": "sha512-9kcolv2E00fuMMXWDbMn4K2JRMdAf8Ql5wME1CaGxgManvLjPM2Ymc46o2TJnwH4kO2gUtVKUrP9hcreHd148g==",
-      "patched": false
+      "patched": true
+    },
+    {
+      "path": "dsh-api-session-controller/lib/types/commands.js",
+      "packageVersion": "0.2.1-rc.5",
+      "sha256": "2cbc6ede7bd7211917984b5ef2e2fd598db7a21e493333bc8586c528b17ec25b",
+      "registryIntegrity": "sha512-9kcolv2E00fuMMXWDbMn4K2JRMdAf8Ql5wME1CaGxgManvLjPM2Ymc46o2TJnwH4kO2gUtVKUrP9hcreHd148g==",
+      "patched": true
     },
     {
       "path": "dsh-attachment-local/lib/index.js",

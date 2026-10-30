@@ -250,6 +250,14 @@ if (fs.existsSync(alFile)) {
   }
 }
 
+// 11b. Show the real prompt-admission cause (secrets redacted); the client error code is unchanged.
+const {rewritePromptAdmission} = require('./prompt_admission_diagnostics.cjs');
+for (const file of [`${baseModulesDir}/dsh-api-session-controller/lib/index.js`, `${baseModulesDir}/dsh-api-session-controller/lib/types/commands.js`]) {
+  const result = rewritePromptAdmission(fs.readFileSync(file, "utf8"));
+  if (result.changed) fs.writeFileSync(file, result.source, "utf8");
+}
+console.log("[CONFIG] Patched dsh-api-session-controller to report the real prompt-admission cause");
+
 // 12. Enforce Web Profile cordis.patch.yml with Compaction and 1M Context Window
 try {
   const profileDir = `${dshHome}/profiles/web`;

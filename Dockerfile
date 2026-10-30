@@ -67,6 +67,7 @@ RUN node /opt/dsh/tests/test_release_dependencies.js \
  && DSH_MANAGED_TRANSPORT=1 NODE_OPTIONS='--require /opt/dsh/scripts/managed_inference_transport.cjs' node /opt/dsh/tests/test_managed_budget_hook.mjs \
  && node /opt/dsh/tests/test_managed_compaction_quality.cjs \
  && node /opt/dsh/scripts/verify_upstream_contract.js \
+ && node /opt/dsh/tests/test_prompt_admission_diagnostics.mjs \
  && node /opt/dsh/scripts/configure_models.js \
  && node /opt/dsh/scripts/configure_image_model_lookup.mjs \
  && node /opt/dsh/tests/test_image_model_lookup.mjs \
