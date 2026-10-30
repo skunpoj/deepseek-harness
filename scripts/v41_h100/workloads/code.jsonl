@@ -1,0 +1,8 @@
+{"prompt": "Write a Python module that computes 12-month expected credit loss from PD, LGD and EAD NumPy arrays, with type hints and pytest tests."}
+{"prompt": "Write a FastAPI service with one POST endpoint that validates a loan application with Pydantic and returns a risk band."}
+{"prompt": "Implement an LRU cache in Python without functools, with O(1) get and put, plus unit tests."}
+{"prompt": "Write a SQL query and an equivalent pandas snippet that compute monthly deposit growth by branch from a transactions table."}
+{"prompt": "Write a Bash script that rotates log files older than 7 days, compresses them and keeps the newest 30 archives."}
+{"prompt": "Write a TypeScript function that debounces async calls and cancels stale promises, with Jest tests."}
+{"prompt": "Refactor this into idiomatic Python with dataclasses: a dict-based order book supporting add, cancel and best bid/ask."}
+{"prompt": "Write a Go HTTP middleware that adds request IDs and structured JSON logging."}

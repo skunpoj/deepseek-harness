@@ -1,0 +1,118 @@
+name: DSH upstream auto-port
+# Opens a pin-port PR only when every reviewed upstream target is byte-identical
+# in the new release (scripts/auto_port_candidate.py). It never merges, publishes
+# an image or deploys; a human reviews and merges the PR after qualification.
+on:
+  schedule:
+    - cron: '47 3 * * *'
+  workflow_dispatch:
+    inputs:
+      candidate_version:
+        description: Optional explicit version; empty tracks npm latest
+        required: false
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: dsh-upstream-auto-port
+  cancel-in-progress: false
+jobs:
+  port:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Same Node major as the Dockerfile base so the configurator runs under the image runtime.
+    container: node:22-bookworm
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Detect release and compare reviewed sources
+        id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          CANDIDATE_VERSION: ${{ inputs.candidate_version }}
+        run: |
+          set -euo pipefail
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          mkdir -p port-evidence
+          args=(--event "$EVENT_NAME")
+          if [ -n "$CANDIDATE_VERSION" ]; then args+=(--candidate "$CANDIDATE_VERSION"); fi
+          python3 scripts/check_upstream.py --output port-evidence/upstream.json --source-diff port-evidence/source-diff.json "${args[@]}"
+          python3 scripts/auto_port_candidate.py --comparison port-evidence/source-diff.json --output port-evidence/eligibility.json
+          python3 - <<'PY'
+          import json, os
+          up = json.load(open('port-evidence/upstream.json'))
+          el = json.load(open('port-evidence/eligibility.json'))
+          version = up['candidateVersion']
+          branch = 'automation/dsh-port-' + version
+          eligible = up['candidateChangeRequired'] and el['eligible']
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f'candidate={version}\nbranch={branch}\neligible={str(eligible).lower()}\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              if not up['candidateChangeRequired']:
+                  f.write(f'DSH pin `{up["sourcePackagePin"]}` is current; nothing to port.\n')
+              elif eligible:
+                  f.write(f'DSH `{version}`: every reviewed upstream target is byte-identical; preparing a port PR.\n')
+              else:
+                  f.write(f'DSH `{version}` needs a human-reviewed source port; no PR opened.\n\n')
+                  f.writelines(f'- {reason}\n' for reason in el['refusalReasons'])
+          PY
+      - name: Skip when a port branch already exists
+        id: existing
+        if: steps.detect.outputs.eligible == 'true'
+        env:
+          BRANCH: ${{ steps.detect.outputs.branch }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Branch $BRANCH already exists; leaving the existing port PR as is." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Apply mechanical port and run offline contract tests
+        if: steps.detect.outputs.eligible == 'true' && steps.existing.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          python3 scripts/auto_port_candidate.py --comparison port-evidence/source-diff.json --output port-evidence/port.json --apply
+          python3 -m unittest discover -s tests -p test_auto_port_candidate.py
+          node tests/test_upstream_contract.js
+      - name: Push branch, open PR and request qualification
+        if: steps.detect.outputs.eligible == 'true' && steps.existing.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BASE: ${{ github.event.repository.default_branch }}
+          BRANCH: ${{ steps.detect.outputs.branch }}
+          CANDIDATE: ${{ steps.detect.outputs.candidate }}
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add Dockerfile README.md scripts/upstream_patch_contract.json patches
+          git commit -m "chore: port DSH pin to $CANDIDATE (reviewed targets byte-identical)"
+          git push origin "$BRANCH"
+          python3 - <<'PY'
+          import json, os, urllib.request
+          env = os.environ
+          port = json.load(open('port-evidence/port.json'))
+          body = (f"Automatic DSH pin port to `{env['CANDIDATE']}` from `{port['previousPin']}`.\n\n"
+                  "Every reviewed upstream target in `scripts/upstream_patch_contract.json` is byte-identical in this release; "
+                  "only package versions and registry integrity changed. The configurator was re-run on a pristine install and "
+                  f"produced the same patched files ({', '.join(port['patchedTargetsUnchanged'])}).\n\n"
+                  "The **DSH upstream candidate** workflow was dispatched on this branch to build the image and run the full qualification; "
+                  "check that run before merging. Nothing was merged, published or deployed.\n")
+          def call(method, path, payload):
+              req = urllib.request.Request('https://api.github.com/repos/' + env['REPO'] + path, method=method,
+                                           data=json.dumps(payload).encode(),
+                                           headers={'Authorization': 'Bearer ' + env['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  return json.loads(r.read() or b'{}')
+          pr = call('POST', '/pulls', {'title': f"Port DSH pin to {env['CANDIDATE']}", 'head': env['BRANCH'], 'base': env['BASE'], 'body': body})
+          call('POST', '/actions/workflows/upstream-candidate.yml/dispatches', {'ref': env['BRANCH'], 'inputs': {'candidate_version': env['CANDIDATE']}})
+          with open(env['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f"Opened {pr['html_url']} and dispatched qualification on `{env['BRANCH']}`.\n")
+          PY

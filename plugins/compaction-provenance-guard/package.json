@@ -1,0 +1,60 @@
+{
+  "name": "dsh-compaction-provenance-guard",
+  "version": "0.1.0",
+  "description": "Bounded identifier-attribution checks before DSH compaction summary adoption",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "files": [
+    "src",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "compatibility.json"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skunpoj/dsh_setup.git",
+    "directory": "plugins/compaction-provenance-guard"
+  },
+  "engines": {
+    "node": ">=22.13.0",
+    "dsh": "0.2.1-rc.1 || 0.2.1-rc.2 || 0.2.1-rc.3"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "compatibility": {
+      "dsh": "0.2.1-rc.1 || 0.2.1-rc.2 || 0.2.1-rc.3",
+      "dshReleases": {
+        "0.2.1-rc.1": "compatible",
+        "0.2.1-rc.2": "compatible",
+        "0.2.1-rc.3": "compatible"
+      },
+      "dshOperations": {
+        "0.2.1-rc.1": {
+          "install": "passed",
+          "start": "passed",
+          "uninstall": "passed",
+          "rollback": "passed"
+        },
+        "0.2.1-rc.2": {
+          "install": "passed",
+          "start": "passed",
+          "uninstall": "passed",
+          "rollback": "passed"
+        },
+        "0.2.1-rc.3": {
+          "install": "passed",
+          "start": "passed",
+          "uninstall": "passed",
+          "rollback": "passed"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}

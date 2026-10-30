@@ -1,0 +1,16 @@
+{
+  "dshServiceTests": {
+    "version": "0.2.1-rc.2",
+    "passed": 15,
+    "total": 15,
+    "renderer": "test double",
+    "settingsTransport": "test double"
+  },
+  "namedProfileHostLifecycle": {
+    "version": "0.2.1-rc.3",
+    "passed": true,
+    "clientFaceExecuted": false
+  },
+  "browserQualification": "not_run",
+  "deployment": "not_performed"
+}

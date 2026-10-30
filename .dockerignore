@@ -1,0 +1,11 @@
+.git
+.github
+rollback
+docs
+k8s
+*.md
+*.html
+*.pdf
+outputs
+node_modules
+.venv

@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-25T04:52:08.655Z",
+  "scope": "Local Windows disposable DSH profiles; actual CLI add/remove, native boot and synthetic compaction. No real provider/model or live deployment changes. Not Linux/macOS/browser acceptance.",
+  "node": "v24.18.1",
+  "platform": "win32",
+  "versions": {
+    "0.2.1-rc.1": {
+      "passed": true,
+      "dshVersion": "0.2.1-rc.1",
+      "nodeVersion": "v24.18.1",
+      "platform": "win32",
+      "scope": "Actual DSH CLI add/remove and native profile boot/disposal with synthetic adapter; no browser/full application/model-provider test",
+      "install": "passed",
+      "start": "passed",
+      "uninstall": "passed",
+      "rollback": "passed",
+      "checks": [
+        "four candidate-text extraction cases match official BlockAssembler",
+        "actual DSH CLI add persisted bundle registration",
+        "active guard holds unsupported summary before delivery, no recovery retry; ordinary stream passes",
+        "native compaction supported: checkpoint adopted",
+        "native compaction explicit: held without checkpoint/history replacement",
+        "native compaction coreference: held without checkpoint/history replacement",
+        "uninstalled profile starts with baseline stream and no plugin entry",
+        "exact original profile manifest restored and disposable sentinel unchanged"
+      ],
+      "mockCalls": 6,
+      "realModelCalls": 0,
+      "liveDeploymentChanges": 0,
+      "sourceHashes": {
+        "dsh-app-boot": "5135179ac810e4f626f32ec3bdc3293dc7d2028e8aa92e5e0c006f1a33b78e76",
+        "dsh-llm": "d18d8ae4c8d961e628708c1e4698e09716a0ebb80e55a672e0bde1029bec1155",
+        "dsh-compaction-basic": "b7ac52f20a36430cf01a66b3a36f23a48ffdb22708d714dbe1fff541b5df4ec5"
+      }
+    },
+    "0.2.1-rc.2": {
+      "passed": true,
+      "dshVersion": "0.2.1-rc.2",
+      "nodeVersion": "v24.18.1",
+      "platform": "win32",
+      "scope": "Actual DSH CLI add/remove and native profile boot/disposal with synthetic adapter; no browser/full application/model-provider test",
+      "install": "passed",
+      "start": "passed",
+      "uninstall": "passed",
+      "rollback": "passed",
+      "checks": [
+        "four candidate-text extraction cases match official BlockAssembler",
+        "actual DSH CLI add persisted bundle registration",
+        "active guard holds unsupported summary before delivery, no recovery retry; ordinary stream passes",
+        "native compaction supported: checkpoint adopted",
+        "native compaction explicit: held without checkpoint/history replacement",
+        "native compaction coreference: held without checkpoint/history replacement",
+        "uninstalled profile starts with baseline stream and no plugin entry",
+        "exact original profile manifest restored and disposable sentinel unchanged"
+      ],
+      "mockCalls": 6,
+      "realModelCalls": 0,
+      "liveDeploymentChanges": 0,
+      "sourceHashes": {
+        "dsh-app-boot": "5135179ac810e4f626f32ec3bdc3293dc7d2028e8aa92e5e0c006f1a33b78e76",
+        "dsh-llm": "d18d8ae4c8d961e628708c1e4698e09716a0ebb80e55a672e0bde1029bec1155",
+        "dsh-compaction-basic": "b7ac52f20a36430cf01a66b3a36f23a48ffdb22708d714dbe1fff541b5df4ec5"
+      }
+    },
+    "0.2.1-rc.3": {
+      "passed": true,
+      "dshVersion": "0.2.1-rc.3",
+      "nodeVersion": "v24.18.1",
+      "platform": "win32",
+      "scope": "Actual DSH CLI add/remove and native profile boot/disposal with synthetic adapter; no browser/full application/model-provider test",
+      "install": "passed",
+      "start": "passed",
+      "uninstall": "passed",
+      "rollback": "passed",
+      "checks": [
+        "four candidate-text extraction cases match official BlockAssembler",
+        "actual DSH CLI add persisted bundle registration",
+        "active guard holds unsupported summary before delivery, no recovery retry; ordinary stream passes",
+        "native compaction supported: checkpoint adopted",
+        "native compaction explicit: held without checkpoint/history replacement",
+        "native compaction coreference: held without checkpoint/history replacement",
+        "uninstalled profile starts with baseline stream and no plugin entry",
+        "exact original profile manifest restored and disposable sentinel unchanged"
+      ],
+      "mockCalls": 6,
+      "realModelCalls": 0,
+      "liveDeploymentChanges": 0,
+      "sourceHashes": {
+        "dsh-app-boot": "5135179ac810e4f626f32ec3bdc3293dc7d2028e8aa92e5e0c006f1a33b78e76",
+        "dsh-llm": "d18d8ae4c8d961e628708c1e4698e09716a0ebb80e55a672e0bde1029bec1155",
+        "dsh-compaction-basic": "b7ac52f20a36430cf01a66b3a36f23a48ffdb22708d714dbe1fff541b5df4ec5"
+      }
+    }
+  },
+  "packageSourceHashes": {
+    "src/index.mjs": "0c6b3a2dd7f297c1ae257a8d9fc2cbba5c2fe0c2ed1d46ae13e0c3ea3d79c052",
+    "src/managed_compaction_quality.cjs": "5d3a09d2f92cadac0651bcbd443daea20128f0936a387f0bcd2b79d16c86572e",
+    "cordis.patch.yml": "317a47f0a96a1947a460fe1e6372854fbdcb0c93ec8a45c5f4669604b61b134d",
+    "test/qualify.mjs": "114a82b935010c64c67f0e6ece734cdf1777eb84e334bdf6084121eaae06fb2d",
+    "test/package.test.mjs": "1b13dc5230ce62d39b221182ffaf74bce99afed0670b5e261922eaa878bfe91a",
+    "test/stream.test.mjs": "a7c025c78ac90e499276865fd90485205facbc41ad645157364ccfb7c0ff6068"
+  }
+}

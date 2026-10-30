@@ -1,0 +1,8 @@
+{"prompt": "Solve step by step: a bond pays a 4% annual coupon for 7 years at a yield of 5.2%. Find the price per 100 face value, then the modified duration."}
+{"prompt": "Prove that the sum of the first n odd numbers is n squared, then generalise to arithmetic series."}
+{"prompt": "A loan of 1,000,000 at 6% annual interest is repaid monthly over 20 years. Derive and compute the monthly payment."}
+{"prompt": "Explain and compute the eigenvalues and eigenvectors of [[2,1],[1,2]], then diagonalise it."}
+{"prompt": "A fair die is rolled until a six appears. Derive the expected number of rolls and its variance."}
+{"prompt": "Solve the differential equation dy/dx = 3y - 2 with y(0) = 1 and check the solution."}
+{"prompt": "Compute the present value of a growing perpetuity paying 100 next year, growing 2% a year, discounted at 7%. Show the derivation."}
+{"prompt": "Find all integer solutions of x^2 - y^2 = 45 and explain the method."}

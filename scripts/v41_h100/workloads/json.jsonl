@@ -1,0 +1,8 @@
+{"prompt": "Return a JSON array of 40 objects {id, name, city, amount} with realistic synthetic retail-bank branch data. JSON only."}
+{"prompt": "Convert this CSV header to a JSON Schema with types and descriptions: date,branch_code,deposit,loan,npl_ratio. JSON only."}
+{"prompt": "Produce a JSON object describing 15 fictional products with fields sku, title, price, tags (array), stock. JSON only."}
+{"prompt": "Return JSON with keys summary, risks (array of 8 objects {name, likelihood, impact}) for launching a mobile payments app. JSON only."}
+{"prompt": "Generate a JSON array of 30 synthetic calendar events {title, start_iso, end_iso, attendees}. JSON only."}
+{"prompt": "Return a GeoJSON FeatureCollection of 12 fictional points of interest with name and category properties. JSON only."}
+{"prompt": "Return an OpenAPI 3.1 JSON document for a to-do service with list, create, update and delete endpoints. JSON only."}
+{"prompt": "Return JSON {questions: [...]} with 20 multiple-choice quiz items about basic macroeconomics, each with 4 options and an answer index. JSON only."}

@@ -1,0 +1,3 @@
+- insert:
+    - id: skunpoj-compaction-provenance-guard
+      name: dsh-compaction-provenance-guard
