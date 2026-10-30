@@ -11,6 +11,7 @@ const originalCompaction = fs.readFileSync(compactionPath, 'utf8');
 const files = new Map([
   [`${base}/dsh-api-session-controller/lib/index.js`, 'async function buildModelCatalog(ctx, defaultSelection) {}\n//#endregion'],
   [`${base}/dsh-client-ui-model-selection/lib/client.js`, 'ModelCatalogDirectory = class {};'],
+  [`${base}/dsh-api-session-controller/lib/types/commands.js`, ''],
 ]);
 files.set(compactionPath, originalCompaction);
 const fakeFs = {
@@ -24,7 +25,7 @@ vm.runInNewContext(source, {
   // This fixture isolates catalog transformation; real preflight is tested against
   // original registry artifacts and by test_upstream_contract.js.
   __dirname: path.join(__dirname,'../scripts'),
-  require: name => { if(name==='fs')return fakeFs;if(name==='./verify_upstream_contract')return {verify:()=>[]};if(name==='./managed_compaction_quality.cjs')return quality;return require(name); },
+  require: name => { if(name==='fs')return fakeFs;if(name==='./verify_upstream_contract')return {verify:()=>[]};if(name==='./managed_compaction_quality.cjs')return quality;if(name==='./prompt_admission_diagnostics.cjs')return {rewritePromptAdmission:source=>({source,changed:false})};return require(name); },
   process: { env: { HOME: '/fixture', DSH_HOME: '/fixture/.dsh' } },
   console: { log() {}, error(error) { throw error; } }, Buffer,
 });
